@@ -9,7 +9,7 @@ const Tasks = ({ tasks = [], currentUser, onUpdateTask, onTaskDeleted }) => {
     if (!window.confirm("¿Estás seguro de eliminar esta tarea permanentemente?")) return;
 
     try {
-      await fetch(`http://localhost:3000/api/tareas/${taskId}`, { 
+      await fetch(`ttps://gametech-api.onrender.com/api/tareas/${taskId}`, { 
         method: 'DELETE' 
       });
       if (onTaskDeleted) onTaskDeleted();

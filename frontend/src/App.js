@@ -49,15 +49,15 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const resProjects = await fetch('http://localhost:3000/api/proyectos-activos');
+      const resProjects = await fetch('ttps://gametech-api.onrender.com/api/proyectos-activos');
       const dataProjects = await resProjects.json();
       setProjects(Array.isArray(dataProjects) ? dataProjects : []);
 
-      const resTasks = await fetch('http://localhost:3000/api/tareas');
+      const resTasks = await fetch('ttps://gametech-api.onrender.com/api/tareas');
       const dataTasks = await resTasks.json();
       setTasks(Array.isArray(dataTasks) ? dataTasks : []);
 
-      const resUsers = await fetch('http://localhost:3000/api/usuarios');
+      const resUsers = await fetch('ttps://gametech-api.onrender.com/api/usuarios');
       const dataUsers = await resUsers.json();
       setUsersList(Array.isArray(dataUsers) ? dataUsers : []);
     } catch (error) {
@@ -73,7 +73,7 @@ function App() {
 
   const handleLogin = async (email, password) => {
     try {
-      const res = await fetch('http://localhost:3000/api/login', {
+      const res = await fetch('ttps://gametech-api.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -94,7 +94,7 @@ function App() {
 
   const handleRecover = async (email) => {
     try {
-        await fetch('http://localhost:3000/api/recover', {
+        await fetch('ttps://gametech-api.onrender.com/api/recover', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -113,33 +113,33 @@ function App() {
   };
 
   const addProject = async (newProject) => {
-    await fetch('http://localhost:3000/api/proyectos', {
+    await fetch('ttps://gametech-api.onrender.com/api/proyectos', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newProject)
     });
     fetchData();
   };
 
   const editProject = async (id, updatedProject) => {
-    await fetch(`http://localhost:3000/api/proyectos/${id}`, {
+    await fetch(`ttps://gametech-api.onrender.com/api/proyectos/${id}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updatedProject)
     });
     fetchData();
   };
 
   const addTask = async (newTask) => {
-    await fetch('http://localhost:3000/api/tareas', {
+    await fetch('ttps://gametech-api.onrender.com/api/tareas', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newTask)
     });
     fetchData();
   };
 
   const archiveProject = async (projectId) => {
-    await fetch(`http://localhost:3000/api/proyectos/${projectId}/archivar`, { method: 'PUT' });
+    await fetch(`ttps://gametech-api.onrender.com/api/proyectos/${projectId}/archivar`, { method: 'PUT' });
     fetchData();
   };
 
   const updateTaskStatus = async (taskId, newStatus) => {
-    await fetch(`http://localhost:3000/api/tareas/${taskId}/estado`, {
+    await fetch(`ttps://gametech-api.onrender.com/api/tareas/${taskId}/estado`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus })
     });
     fetchData();

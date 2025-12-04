@@ -18,14 +18,14 @@ const ProjectDetail = ({ currentUser, onUpdateTask }) => {
 
   const cargarDatos = async () => {
       try {
-        const projRes = await fetch(`ttps://gametech-api.onrender.com/api/proyectos`); 
+        const projRes = await fetch(`https://gametech-api.onrender.com/api/proyectos`); 
         const todosLosProyectos = await projRes.json();
         const proj = todosLosProyectos.find(p => String(p.id) === String(id));
 
-        const tareasRes = await fetch(`ttps://gametech-api.onrender.com/api/tareas`);
+        const tareasRes = await fetch(`https://gametech-api.onrender.com/api/tareas`);
         const todasTareas = await tareasRes.json();
 
-        const recRes = await fetch(`ttps://gametech-api.onrender.com/api/proyectos/${id}/recursos`);
+        const recRes = await fetch(`https://gametech-api.onrender.com/api/proyectos/${id}/recursos`);
         const todosRecursos = await recRes.json();
 
         if (proj) {
@@ -58,7 +58,7 @@ const ProjectDetail = ({ currentUser, onUpdateTask }) => {
     formData.append('categoria', categoria);
 
     try {
-        await fetch('ttps://gametech-api.onrender.com/api/recursos', { method: 'POST', body: formData });
+        await fetch('https://gametech-api.onrender.com/api/recursos', { method: 'POST', body: formData });
         setSelectedFile(null); setFileName(''); e.target.reset();
         cargarDatos();
         alert("Guardado exitosamente");
@@ -68,7 +68,7 @@ const ProjectDetail = ({ currentUser, onUpdateTask }) => {
   const eliminarRecurso = async (recursoId) => {
       if(!window.confirm("¿Estás seguro de eliminar este archivo permanentemente?")) return;
       try {
-          await fetch(`ttps://gametech-api.onrender.com/api/recursos/${recursoId}`, { method: 'DELETE' });
+          await fetch(`https://gametech-api.onrender.com/api/recursos/${recursoId}`, { method: 'DELETE' });
           cargarDatos(); 
       } catch(e) { alert("Error al eliminar recurso"); }
   };

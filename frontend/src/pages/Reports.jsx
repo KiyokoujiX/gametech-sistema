@@ -9,7 +9,7 @@ function Reports({ projects, tasks }) {
   useEffect(() => {
     const fetchKPIs = async () => {
       try {
-        const res = await fetch("ttps://gametech-api.onrender.com/api/reportes/kpis");
+        const res = await fetch("https://gametech-api.onrender.com/api/reportes/kpis");
         const data = await res.json();
         console.log("KPIs desde backend:", data);
       } catch (err) {

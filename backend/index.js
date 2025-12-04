@@ -253,7 +253,7 @@ app.post('/api/recursos', upload.single('archivo'), async (req, res) => {
   const { tipo, project_id, categoria } = req.body;
   const nombreFinal = req.file ? req.file.originalname : req.body.nombre;
   
-  const baseUrl = process.env.BASE_URL || 'ttps://gametech-api.onrender.com';
+  const baseUrl = process.env.BASE_URL || 'https://gametech-api.onrender.com';
   const urlFinal = req.file ? `${baseUrl}/uploads/${req.file.filename}` : '#';
 
   try {

@@ -44,6 +44,10 @@ const connectionConfig = {
 
 const pool = new Pool(connectionConfig);
 
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+});
+
 pool.connect()
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.error('Database connection error:', err.message));
@@ -55,11 +59,14 @@ app.use((req, res, next) => {
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465, 
-  secure: true, 
+  port: 587, 
+  secure: false, 
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   },
   connectionTimeout: 10000, 
   greetingTimeout: 10000,
@@ -84,6 +91,7 @@ const enviarNotificacion = async (destinatario, asunto, mensaje) => {
     };
     try {
         await transporter.sendMail(mailOptions);
+        console.log(`Email sent to ${destinatario}`);
     } catch (error) {
         console.error('Error sending email:', error);
     }
@@ -167,7 +175,11 @@ app.post('/api/proyectos', async (req, res) => {
     
     const gerenteRes = await pool.query("SELECT email FROM usuarios WHERE nombre = $1", [gerente]);
     if(gerenteRes.rows.length > 0) {
-        enviarNotificacion(gerenteRes.rows[0].email, "Nuevo Proyecto Asignado", `Se te ha asignado la gerencia del proyecto "${nombre}".`);
+        enviarNotificacion(
+            gerenteRes.rows[0].email, 
+            "Nuevo Proyecto Asignado", 
+            `Se te ha asignado la gerencia del proyecto "${nombre}".`
+        ).catch(err => console.error(err));
     }
     res.status(201).json(result.rows[0]);
   } catch (err) { 
@@ -219,7 +231,7 @@ app.post('/api/tareas', async (req, res) => {
             emailDestino, 
             `Nueva Tarea Asignada: ${title}`, 
             mensajeDetallado
-        );
+        ).catch(err => console.error(err));
     }
 
     res.status(201).json(result.rows[0]);
@@ -330,7 +342,7 @@ app.post('/api/recover', async (req, res) => {
       2. Solicita un restablecimiento manual de credenciales.
       Si tú no solicitaste esto, por favor reportalo.`;
 
-      enviarNotificacion(email, " Recuperación de Acceso - SGP Gametech", mensaje);
+      enviarNotificacion(email, " Recuperación de Acceso - SGP Gametech", mensaje).catch(err => console.error(err));
       res.json({ success: true, message: "Correo enviado con instrucciones" });
     } else {
       res.json({ success: true, message: "Si el correo existe, se enviaron instrucciones" });
